@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 
 app = FastAPI(
@@ -6,6 +7,16 @@ app = FastAPI(
     description="Returns aspect ratings and summaries computed from Reddit analysis",
     version="1.0"
 )
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Load the equal-weighted aspect ratings once on startup
 ratings_df = pd.read_csv("company_aspect_ratings_equal_weight.csv")
